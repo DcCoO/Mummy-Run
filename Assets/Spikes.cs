@@ -21,4 +21,9 @@ public class Spikes : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

@@ -30,21 +30,22 @@ public class Player : MonoBehaviour
         isPressingJump = isPressingJump || Input.GetKey(KeyCode.Space);
 
         jumpTimer += Time.deltaTime;
-        /*
+        
         //ground check
-        RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, -Vector2.up, 0.1f, mask);
+        RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, Vector2.down, 0.05f, mask);
         Debug.DrawRay(leftFoot.position, Vector2.down * 0.1f, Color.red);
-        RaycastHit2D hitRight = Physics2D.Raycast(leftFoot.position, -Vector2.up, 0.1f, mask);
+        RaycastHit2D hitRight = Physics2D.Raycast(rightFoot.position, Vector2.down, 0.05f, mask);
         Debug.DrawRay(rightFoot.position, Vector2.down * 0.1f, Color.red);
-        isGrounded = hitLeft.collider != null || hitRight.collider != null;*/
+        isGrounded = hitLeft.collider != null || hitRight.collider != null;
     }
 
     private void FixedUpdate()
     {
         if(isPressingJump)
         {
-            if (isGrounded && jumpTimer > 0.2f)
+            if (isGrounded)
             {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 jumpTimer = 0;
             }
@@ -59,15 +60,5 @@ public class Player : MonoBehaviour
             vel.x = Mathf.Clamp(vel.x, -maxSpeed, maxSpeed);
         }
         rb.velocity = vel;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        isGrounded = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isGrounded = false;
     }
 }
