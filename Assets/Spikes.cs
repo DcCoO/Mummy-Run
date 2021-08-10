@@ -19,11 +19,13 @@ public class Spikes : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
+        if(collision.gameObject.CompareTag("Player"))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (collision.gameObject.CompareTag("Player"))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
