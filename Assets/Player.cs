@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] Transform leftFoot, rightFoot;
     [SerializeField] LayerMask mask;
 
+    public Animator animator;
+    private SpriteRenderer mySprite;
+
     float moveDirection, jumpTimer;
     bool isPressingJump;
 
@@ -21,22 +24,51 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+	animator = GetComponent<Animator>();
+	mySprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+	
         moveDirection = Input.GetAxisRaw("Horizontal");
+	if (moveDirection != 0) {
+	 //Debug.Log(moveDirection);
+	 animator.SetBool("running", true);
+	  if (moveDirection > 0) {
+		mySprite.flipX = false;
+	  } else {
+	   	mySprite.flipX = true;
+	  }
+	}else {
+	 //Debug.Log("stopped");
+	 animator.SetBool("running", false);	
+	}
+	
+	
+	
         isPressingJump = isPressingJump || Input.GetKey(KeyCode.Space);
 
         jumpTimer += Time.deltaTime;
-        
+	
+	    
+
         //ground check
         RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, Vector2.down, 0.05f, mask);
         Debug.DrawRay(leftFoot.position, Vector2.down * 0.1f, Color.red);
         RaycastHit2D hitRight = Physics2D.Raycast(rightFoot.position, Vector2.down, 0.05f, mask);
         Debug.DrawRay(rightFoot.position, Vector2.down * 0.1f, Color.red);
         isGrounded = hitLeft.collider != null || hitRight.collider != null;
+
+	 Debug.Log(isGrounded);
+	if (isGrounded) {
+	 Debug.Log("set false");
+	 animator.SetBool("jumping", false);
+	}else {
+	 Debug.Log("set true");
+	 animator.SetBool("jumping", true);
+	}    
     }
 
     private void FixedUpdate()
