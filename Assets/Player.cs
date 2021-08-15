@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NDream.AirConsole;
+using Newtonsoft.Json.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -23,18 +25,28 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+    rb = GetComponent<Rigidbody2D>();
 	animator = GetComponent<Animator>();
 	mySprite = GetComponent<SpriteRenderer>();
+    AirConsole.instance.onMessage += OnMessage;
     }
+
+     void OnMessage(int from, JToken data) {
+            if(data["x"] != null) {
+               this.moveDirection = (float) data["x"];
+            }
+            if(data["pular"] != null) {
+                this.isPressingJump = (bool) data["pular"];
+            }
+        }
 
     // Update is called once per frame
     void Update()
     {
 	
-        moveDirection = Input.GetAxisRaw("Horizontal");
-	if (moveDirection != 0) {
-	 //Debug.Log(moveDirection);
+    //moveDirection = Input.GetAxisRaw("Horizontal");
+
+    if (moveDirection != 0) {;
 	 animator.SetBool("running", true);
 	  if (moveDirection > 0) {
 		mySprite.flipX = false;
@@ -42,18 +54,13 @@ public class Player : MonoBehaviour
 	   	mySprite.flipX = true;
 	  }
 	}else {
-	 //Debug.Log("stopped");
 	 animator.SetBool("running", false);	
 	}
-	
-	
 	
         isPressingJump = isPressingJump || Input.GetKey(KeyCode.Space);
 
         jumpTimer += Time.deltaTime;
-	
-	    
-
+		    
         //ground check
         RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, Vector2.down, 0.05f, mask);
         Debug.DrawRay(leftFoot.position, Vector2.down * 0.1f, Color.red);
