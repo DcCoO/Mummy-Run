@@ -2,17 +2,12 @@
 
 public class Cannon : MonoBehaviour
 {
-    [SerializeField] bool isRight;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] float cooldown;
+    [SerializeField] float timeToDestroy; 
 
     float time = 0;
-    float cooldown = 3;
 
-
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -21,7 +16,7 @@ public class Cannon : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, transform);
             bullet.transform.position = transform.position;
-            bullet.GetComponent<Bullet>().SetDirection(isRight);
+            Destroy(bullet, timeToDestroy);
             time = 0;
         }
         time += Time.deltaTime;
