@@ -20,7 +20,6 @@ public class FallSpark : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("ENTRANDO");
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.position = originalPos;
         StartCoroutine(Fall());

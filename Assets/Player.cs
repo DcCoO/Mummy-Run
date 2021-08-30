@@ -122,4 +122,9 @@ public class Player : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Player");
         isInvulnerable = false;
     }
+
+    public void TakeDamage()
+    {
+        if (!isInvulnerable) StartCoroutine(Stun());
+    }
 }
