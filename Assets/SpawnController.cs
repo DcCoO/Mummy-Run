@@ -11,9 +11,12 @@ public class SpawnController : MonoBehaviour
 
         Vector2 pos = Vector2.zero;
 
-        for(int i = 0; i < 10; i++)
+        GameObject g0 = Instantiate(obstacles[0], pos, Quaternion.identity, levelParent);
+        pos = g0.GetComponent<Obstacle>().GetEndPosition();
+
+        for (int i = 0; i < 10; i++)
         {
-            GameObject g = Instantiate(obstacles[Random.Range(0, obstacles.Length)], pos, Quaternion.identity, levelParent);
+            GameObject g = Instantiate(obstacles[Random.Range(1, obstacles.Length)], pos, Quaternion.identity, levelParent);
             pos = g.GetComponent<Obstacle>().GetEndPosition();
         }
     }
