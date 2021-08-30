@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
@@ -8,15 +9,17 @@ public class Obstacle : MonoBehaviour
     public int GetID() => id;
     public Vector2 GetEndPosition() => endPosition.position;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(WasPassed());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator WasPassed()
     {
-        
+        yield return new WaitUntil(() => PlayerController.instance.GetMaxX() >= endPosition.position.x);
+        SpawnController.instance.Spawn();
+
+        yield return new WaitUntil(() => PlayerController.instance.GetMinX() >= endPosition.position.x + 2);
+        Instantiate(SpawnController.instance.wall, transform).transform.position = endPosition.position;
     }
 }

@@ -4,26 +4,38 @@ using UnityEngine;
 
 public class SpawnController : MonoBehaviour
 {
+
+    public static SpawnController instance;
+
     public GameObject[] obstacles;
+
+    public GameObject wall;
+
     [SerializeField] Transform levelParent;
-    void Start()
+    Vector2 pos;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public void StartGame()
     {
 
-        Vector2 pos = Vector2.zero;
+        pos = Vector2.zero;
 
         GameObject g0 = Instantiate(obstacles[0], pos, Quaternion.identity, levelParent);
         pos = g0.GetComponent<Obstacle>().GetEndPosition();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject g = Instantiate(obstacles[Random.Range(1, obstacles.Length)], pos, Quaternion.identity, levelParent);
             pos = g.GetComponent<Obstacle>().GetEndPosition();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Spawn()
     {
-        
+        GameObject g = Instantiate(obstacles[Random.Range(1, obstacles.Length)], pos, Quaternion.identity, levelParent);
+        pos = g.GetComponent<Obstacle>().GetEndPosition();
     }
 }

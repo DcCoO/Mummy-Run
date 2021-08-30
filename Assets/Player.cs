@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    bool allowInput = true;
+    public bool allowInput = false;
     [SerializeField] bool isGrounded;
     [SerializeField] float jumpForce;
     [SerializeField] float acceleration;
@@ -50,9 +50,18 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        //ground check
+        RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, Vector2.down, 0.05f, mask);
+        RaycastHit2D hitRight = Physics2D.Raycast(rightFoot.position, Vector2.down, 0.05f, mask);
+        //Debug.DrawRay(leftFoot.position, Vector2.down * 0.1f, Color.red);
+        //Debug.DrawRay(rightFoot.position, Vector2.down * 0.1f, Color.red);
+        isGrounded = hitLeft.collider != null || hitRight.collider != null;
+        animator.SetBool("jumping", !isGrounded);
+
         if (!allowInput)
         {
             moveDirection = 0;
+            animator.SetBool("running", Mathf.Abs(moveDirection) > 0.01f);
             return;
         }
 
@@ -62,13 +71,7 @@ public class Player : MonoBehaviour
         if (moveDirection < -0.1) sr.flipX = true;
         if (moveDirection > 0.1) sr.flipX = false;
 
-        //ground check
-        RaycastHit2D hitLeft = Physics2D.Raycast(leftFoot.position, Vector2.down, 0.05f, mask);
-        Debug.DrawRay(leftFoot.position, Vector2.down * 0.1f, Color.red);
-        RaycastHit2D hitRight = Physics2D.Raycast(rightFoot.position, Vector2.down, 0.05f, mask);
-        Debug.DrawRay(rightFoot.position, Vector2.down * 0.1f, Color.red);
-        isGrounded = hitLeft.collider != null || hitRight.collider != null;
-        animator.SetBool("jumping", !isGrounded);
+        
     }
 
     private void FixedUpdate()
