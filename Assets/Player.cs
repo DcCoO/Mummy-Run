@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     float moveDirection;
     bool isPressingJump;
+    bool isInvulnerable;
 
     Rigidbody2D rb;
     // Start is called before the first frame update
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Damage"))
         {
-            StartCoroutine(Stun());
+            if(!isInvulnerable) StartCoroutine(Stun());
         }
     }
 
@@ -109,6 +110,7 @@ public class Player : MonoBehaviour
     public void Invulnerable(float time) => StartCoroutine(InvulnerableRoutine(time));
     IEnumerator InvulnerableRoutine(float time)
     {
+        isInvulnerable = true;
         float startTime = Time.time;
         gameObject.layer = LayerMask.NameToLayer("Invulnerable");
         while (Time.time - startTime < time)
@@ -118,5 +120,6 @@ public class Player : MonoBehaviour
         }
         sr.enabled = true;
         gameObject.layer = LayerMask.NameToLayer("Player");
+        isInvulnerable = false;
     }
 }
