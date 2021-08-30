@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
+
+    public static Hud instance;
+
     [SerializeField] float maxDistance;
     [SerializeField] Text distanceText;
     [SerializeField] GameObject bar;
@@ -15,11 +18,12 @@ public class Hud : MonoBehaviour
     [SerializeField] Transform player1, player2;
     [SerializeField] Gradient colorGradient;
     [SerializeField] GameObject players;
+    [SerializeField] GameObject menu;
 
     bool isPlaying = true;
-    void Start()
+    void Awake()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
@@ -64,6 +68,7 @@ public class Hud : MonoBehaviour
 
     IEnumerator StartGameRoutine()
     {
+        menu.SetActive(false);
         counter.sprite = i321go[0];
         counter.enabled = true;
         yield return new WaitForSeconds(1);

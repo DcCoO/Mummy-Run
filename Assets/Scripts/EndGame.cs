@@ -12,6 +12,8 @@ public class EndGame : MonoBehaviour
     public Sprite P1, P2;
     public Image finishedImage;
 
+    public bool waitingInput;
+
     private void Awake()
     {
         instance = this;
@@ -25,6 +27,7 @@ public class EndGame : MonoBehaviour
         win.enabled = true;
         PlayerController.instance.StopGame();
         finishedImage.enabled = true;
+        waitingInput = true;
     }
 
     public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);

@@ -4,9 +4,13 @@ using UnityEngine;
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
+
+    static List<int> ids = new List<int>();
+
     public bool allowInput = false;
     [SerializeField] bool isGrounded;
     [SerializeField] float jumpForce;
@@ -19,9 +23,17 @@ public class Player : MonoBehaviour
     public Animator animator;
     private SpriteRenderer sr;
 
+    [SerializeField] bool isPlayer1;
+
     float moveDirection;
     bool isPressingJump;
+    bool acJump;
+    float acDirection;
     bool isInvulnerable;
+
+
+
+    [SerializeField] bool isACInput;
 
     Rigidbody2D rb;
     // Start is called before the first frame update
@@ -30,16 +42,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 	    animator = GetComponent<Animator>();
 	    sr = GetComponent<SpriteRenderer>();
-        //AirConsole.instance.onMessage += OnMessage;
     }
 
-    void OnMessage(int from, JToken data) {
-        if(data["x"] != null) {
-            this.moveDirection = (float) data["x"];
-        }
-        if(data["pular"] != null) {
-            this.isPressingJump = (bool) data["pular"];
-        }
+    public void FeedACInput(bool acJump, float acDirection)
+    {
+        this.acJump = acJump;
+        this.acDirection = acDirection;
     }
 
     // Update is called once per frame
@@ -65,9 +73,9 @@ public class Player : MonoBehaviour
             return;
         }
 
-        moveDirection = Input.GetAxisRaw("Horizontal");
+        moveDirection = (isACInput ? acDirection : Input.GetAxisRaw("Horizontal"));
         animator.SetBool("running", Mathf.Abs(moveDirection) > 0.01f);
-        isPressingJump = isPressingJump || Input.GetKey(KeyCode.Space);
+        isPressingJump = isPressingJump || (isACInput ? acJump : Input.GetKey(KeyCode.Space));
         if (moveDirection < -0.1) sr.flipX = true;
         if (moveDirection > 0.1) sr.flipX = false;
 
