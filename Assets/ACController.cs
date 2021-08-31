@@ -13,8 +13,8 @@ public class ACController : MonoBehaviour
     bool startedGame = false;
 
     int p1id = -123, p2id = -93;
-    bool acJump;
-    float acDirection;
+    bool jump1, jump2;
+    float dir1, dir2;
 
     void Start()
     {
@@ -41,19 +41,18 @@ public class ACController : MonoBehaviour
             return;
         }
 
-        acDirection = 0;
-        acJump = false;
-
-        if (data["x"] != null) acDirection = (float)data["x"];
-        if (data["pular"] != null) acJump = (bool)data["pular"];
 
         if (from == p1id)
         {
-            player1.FeedACInput(acJump, acDirection);
+            if (data["x"] != null) dir1 = (float)data["x"];
+            if (data["pular"] != null) jump1 = (bool)data["pular"];
+            player1.FeedACInput(jump1, dir1);
         }
         else
         {
-            player2.FeedACInput(acJump, acDirection);
+            if (data["x"] != null) dir2 = (float)data["x"];
+            if (data["pular"] != null) jump2 = (bool)data["pular"];
+            player2.FeedACInput(jump2, dir2);
         }
     }
 }
