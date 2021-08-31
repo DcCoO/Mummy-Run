@@ -40,19 +40,20 @@ public class ACController : MonoBehaviour
             if (data["pular"] != null) EndGame.instance.Restart();
             return;
         }
-        print(AirConsole.instance.GetControllerDeviceIds().Count);
+
+        acDirection = 0;
+        acJump = false;
+
         if (data["x"] != null) acDirection = (float)data["x"];
         if (data["pular"] != null) acJump = (bool)data["pular"];
 
         if (from == p1id)
         {
             player1.FeedACInput(acJump, acDirection);
-            player2.FeedACInput(false, 0);
         }
         else
         {
             player2.FeedACInput(acJump, acDirection);
-            player1.FeedACInput(false, 0);
         }
     }
 }
