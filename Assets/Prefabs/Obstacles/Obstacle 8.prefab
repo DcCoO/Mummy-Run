@@ -1443,7 +1443,7 @@ MonoBehaviour:
   - {fileID: 1423620536511164312}
   - {fileID: 4269274949491995397}
   - {fileID: 6737730137795504626}
-  timeOn: 0.5
+  timeOn: 1
   timeOff: 3
 --- !u!1 &8116506381787471402
 GameObject:
