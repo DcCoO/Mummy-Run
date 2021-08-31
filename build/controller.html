@@ -1,0 +1,158 @@
+<html>
+<head>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+  <link rel="stylesheet" type="text/css" href="./joystick/joystick.css">
+  <script type="text/javascript" src="./joystick/joystick.js"></script>
+  <script type="text/javascript" src="./joystick/button.js"></script>
+    <link rel="stylesheet" href="./joystick/button.css">
+  
+  <style type="text/css">
+    body {
+        -ms-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .example-container {
+        position: relative;
+        background-color: #3b3b3b;
+        text-align: center;
+        font-family: sans-serif;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        max-width: 720px;
+        max-height: 360px;
+      }
+
+      /* You need to explicitly position your joystick */
+      #joystick_left {
+        position: absolute;
+        width: 45%;
+        height: 90%;
+        top: 5%;
+        left: 5%;
+      }
+	  	  
+	  .button-300-150 {
+        position: absolute;
+        height: 70%;
+        width: 40%;
+        right: 15px;
+
+      }
+
+      .button-80 {
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        left: 50%;
+        margin-left: -25%;
+        font-size: 10px;
+      }
+
+      .button-80 .button-text {
+        margin-top: -0.6em;
+      }
+
+      #a {
+        bottom: 0%;
+        background-position: 50% 0%;
+      }
+
+      .button-a-text {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        padding-bottom: 50%;
+        height: 0%;
+      }
+
+      #b {
+        top: 0%;
+        background-position: 50% 100%;
+      }
+
+      .button-b-text {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 100%;
+        padding-bottom: 50%;
+        height: 0%;
+      }
+
+  </style>
+  
+  <script type="text/javascript">
+  
+     var _AIR = new AirConsole();
+	 
+	 _AIR.setOrientation(AirConsole.ORIENTATION_LANDSCAPE);
+   
+    function App() {
+    /* JavaScript / Functionality. Add functions and evens here */ 
+      /*
+       * Here we are adding support for mouse events manually.
+       * --> WE STRONGLY ENCOURAGE YOU TO USE THE AIRCONSOLE CONTROLS LIBRARY
+       * WHICH IS EVEN BETTER (BUT WE DONT WANT TO BLOAT THE CODE HERE).
+       * https://github.com/AirConsole/airconsole-controls/
+       * 
+       * DO NOT USE ONCLICK HANDLERS.
+       * THEY ADD A 200MS DELAY!
+       */
+      if (!("ontouchstart" in document.createElement("div"))) {
+        var elements = document.getElementsByTagName("*");
+        for (var i = 0; i < elements.length; ++i) {
+          var element = elements[i];
+          var ontouchstart = element.getAttribute("ontouchstart");
+          if (ontouchstart) {
+            element.setAttribute("onmousedown", ontouchstart);
+          }
+          var ontouchend = element.getAttribute("ontouchend");
+          if (ontouchend) {
+            element.setAttribute("onmouseup", ontouchend);
+          }
+        }
+      }
+    }
+	
+  </script>
+</head>
+<body onload="window.app = new App()">
+   <div class="example-container">
+    <div id="joystick_left" class="joystick">
+        <div class="joystick-relative">
+          <div class="joystick-relative-stick"></div>
+        </div>
+      </div>
+      <div>
+	  <div id="a" class="button-300-150"><div class="button-a-text"><div class="button-text">Pular</div></div></div>
+      </div>
+	</div>
+	    <script type="text/javascript">
+      var joystick_left = new Joystick("joystick_left", {
+        "touchmove": function(position) {
+           _AIR.message(AirConsole.SCREEN, {'x': position.x});
+        },
+        "touchend": function(had_direction) {
+          _AIR.message(AirConsole.SCREEN, {'x': 0});
+        }
+      });
+	  
+	  
+	 new Button("a", {
+        "down": function () {
+           _AIR.message(AirConsole.SCREEN, {'pular': true});
+        },
+        "up": function () {
+         _AIR.message(AirConsole.SCREEN, {'pular': false});
+        }
+      });
+	  
+    </script>
+</body>
+</html>

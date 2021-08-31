@@ -38,7 +38,7 @@
 	  	  
 	  .button-300-150 {
         position: absolute;
-        height: 48%;
+        height: 70%;
         width: 40%;
         right: 15px;
 
@@ -131,7 +131,6 @@
       </div>
       <div>
 	  <div id="a" class="button-300-150"><div class="button-a-text"><div class="button-text">Pular</div></div></div>
-      <div id="b" class="button-300-150"><div class="button-b-text"><div class="button-text">Atacar</div></div></div>
       </div>
 	</div>
 	    <script type="text/javascript">
@@ -151,14 +150,6 @@
         },
         "up": function () {
          _AIR.message(AirConsole.SCREEN, {'pular': false});
-        }
-      });
-      new Button("b", {
-        "down": function () {
-          console.log("down");
-        },
-        "up": function () {
-         console.log("up");
         }
       });
 	  
